@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>exLink.html</title>
+</head>
+<body>
+  <ul>
+    <li th:each="dto : ${list}">
+      <a th:href="@{/sample/exView(sno=${dto.sno})}">[[${dto}]]</a>
+      <!-- 위와 같이 ()괄호 안에 파라미터 속성 = 값을 적어주면 파라미터로 넘어간다. -->
+    </li>
+  </ul>
+
+  <!-- #temporals 객체 이용해서 LocalDateTime을 편하게 처리, 포멧팅!(build.gradle에 의존성추가) -->
+  <ul>
+      <li th:each="dto : ${list}">
+          [[${dto.sno}]] --- [[${#temporals.format(dto.regTime, 'yyyy/MM/dd')}]]
+      </li>
+  </ul>
+
+</body>
+</html>

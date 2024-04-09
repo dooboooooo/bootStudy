@@ -39,8 +39,8 @@ public interface MemoRepository extends JpaRepository<Memo, Long> {
     int updateMemoText(@Param("mno") Long mno, @Param("memoText") String memoText);
 
     // 매개값이 객체(빈)으로 들어올 경우의 방법
-    @Query("UPDATE Memo m SET m.memoText = :#{memoBean.memoText} WHERE m.mno = :#{memoBean.mno}")
-    int updateMemoBean(@Param("memoBean") Memo memo);
+//    @Query("UPDATE Memo m SET m.memoText = :#{memoBean.memoText} WHERE m.mno = :#{memoBean.mno}")
+//    int updateMemoBean(@Param("memoBean") Memo memo);
 
     // @Query 메서드로 페이징 처리 해보기 -> 리턴타입이 Page<Memo)
     @Query(value = "SELECT m FROM Memo m WHERE m.mno > :mno", countQuery = "SELECT count(m) FROM Memo m WHERE m.mno > :mno")
@@ -51,7 +51,7 @@ public interface MemoRepository extends JpaRepository<Memo, Long> {
     Page<Object[]> getListWithQueryObject(Long mno, Pageable pageable);
 
     // Native SQL 처리 : DB용 쿼리로 작성하는 기법 -> nativeQuery = true
-    // 엔티티명 대신에 테이블명으로 작성(tbl_memo 아닌강 ?)
+    // 엔티티명 대신에 테이블명으로 작성(tbl_memo 아닌강 ..?)
     @Query(value = "SELECT * FROM memo WHERE mno > 0", nativeQuery = true)
     List<Object[]> getNativeResult();
 

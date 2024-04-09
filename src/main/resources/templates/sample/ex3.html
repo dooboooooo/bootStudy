@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ex3.html</title>
+</head>
+<body>
+  <h1 th:text="${result}"></h1>
+  <h1 th:text="${dto}"></h1>
+
+  <script th:inline="javascript">
+      var msg = [[${result}]];
+      var dto = [[${dto}]];
+  </script>
+<!-- 결과 : th:inline="javascript"를 사용함으로써 result와 dto 값이 문자열, json 타입으로 전달된다.
+           만약 dto를 객체로 변수에 저장하고 싶다면 ? JSON.parse('\"' + dto + '\"')로 변환하여 사용 = 안됨 ..
+<script>
+var msg = "success";
+var dto = {"sno":100,"first":"First .. 100","last":"Last .. 100","regTime":"2024-04-09T15:36:30.1413837"};
+</script>
+-->
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- /layout/layout1.html을 사용한다. -->
+
+<th:block th:replace="~{/layout/layout1 :: setContent(~{this::content})}">
+  <th:block th:fragment="content">
+    <h1>exTemplate Page</h1>
+  </th:block>
+</th:block>
+
+<!-- 결과 : -->
+<!-- /layout/layout1.html의 setContent를 가져오는데, -->
+<!-- 여기서 조각의 이름이 content인 조각을 매개값으로 보낸다. -->
+<!-- layout1.html에서는 content 조각을 받아서 div .content안에 치환하여 출력한다. -->
+<!-- layout1.html의 <th:block th:fragment="setContent(content)"> 이부분은 head, body를 가지고 있다. -->
