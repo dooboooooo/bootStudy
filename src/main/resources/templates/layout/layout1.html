@@ -1,50 +1,52 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<th:block th:fragment="setContent(content)"> <!-- content 부분이 바뀔 수 있도록 처리 -->
 
-<head>
-    <meta charset="UTF-8">
-    <title>layout1.html</title>
-</head>
+<th:block th:fragment="setContent(content)">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+
 <body>
-  <style>
-    *{
-      margin: 0;
-      padding: 0;
-    }
-    .header{
-      width: 100vw;
-      height: 20vh;
-      background-color: aqua;
-    }
-    .content{
-      width: 100vw;
-      height: 70vh;
-      background-color: lightgray;
-    }
-    .footer{
-      width: 100vw;
-      height: 10vh;
-      background-color: green;
-    }
-  </style>
 
-  <div class="header">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    .header {
+        width:100vw;
+        height: 20vh;
+        background-color: aqua;
+    }
+    .content {
+        width: 100vw;
+        height: 70vh;
+        background-color: lightgray;
+    }
+    .footer {
+        width: 100vw;
+        height: 10vh;
+        background-color: green;
+    }
+</style>
+
+
+<div class="header">
     <h1>HEADER</h1>
-  </div>
+</div>
+<div class="content" >
 
-  <div class="content">
-    <th:block th:replace="${content}"></th:block>
-    <!-- 내용부분만 바뀔 수 있도록 처리, 파라미터로 전달되는 content를 출력한다. -->
-  </div>
+    <th:block th:replace = "${content}">
+    </th:block>
 
-  <div class="footer">
+</div>
+
+<div class="footer">
     <h1>FOOTER</h1>
-  </div>
-
-
-
+</div>
 
 </body>
 </th:block>

@@ -2,25 +2,30 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>fragment3.html</title> <!-- exLayout2.html에서 사용 -->
+    <title>Title</title>
 </head>
 <body>
-  <div th:fragment="target(first, second)"> <!-- first와 second 파라미터를 받음 -->
+
+<div th:fragment="target(first, second)">
+
     <style>
-      .c1{
-        background-color: red;
-      }
-      .c2{
-        background-color: blue;
-      }
+        .c1 {
+            background-color: red;
+        }
+        .c2 {
+            background-color: blue;
+        }
     </style>
 
     <div class="c1">
-      <th:block th:replace="${first}"></th:block>
+        <th:block th:replace = "${first}"></th:block>
     </div>
+
     <div class="c2">
-      <th:block th:replace="${second}"></th:block>
+        <th:block th:replace = "${second}"></th:block>
     </div>
-  </div>
+
+</div>
+
 </body>
 </html>

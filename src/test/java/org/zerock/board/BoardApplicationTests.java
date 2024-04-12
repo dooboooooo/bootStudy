@@ -10,8 +10,8 @@ class BoardApplicationTests {
 
     @Test
     void contextLoads() {
-        System.out.println("sout 콘솔 테스트");
-        log.info("lombok으로 로그를 찍는 테스트");
+        System.out.println(" sout 콘솔 테스트 ");
+        log.info(" 롬북으로 로그를 찍는 테스트 ");
     }
 
 }

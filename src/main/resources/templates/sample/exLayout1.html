@@ -2,42 +2,24 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>exLayout1.html</title> <!-- fragment1, 2를 사용 -->
+    <title>Title</title>
 </head>
 <body>
-  <h1>fragment1.html의 조각들을 가져와서 사용하는 테스트</h1>
 
-  <!-- :: 이하를 생략하면 해당 파일의 전체 내용을 가져올 수 있음 -->
-  <div sytle="border: 1px solid blue">
-      <th:block th:replace="~{/fragments/fragment2}"></th:block>
-      <!-- 결과 : 요 안에 fragment2.html의 코드가 모두 들어간다. -->
-  </div>
+<h1>Fragment Test</h1>
+<div style="border: 1px solid blue">
 
-  <h1>Layout 1 - 1</h1>
-  <div th:replace="~{/fragments/fragment1 :: part1}"></div>
-  <!-- 결과 : 위의 div를 part1 div로 대체함
-  <div>
-    <h2>Part 1</h2>
-  </div>
-  -->
-  <h1>Layout 1 - 2</h1>
-  <div th:insert="~{/fragments/fragment1 :: part2}"></div>
-  <!-- 결과 : 위의 div 안에 part2 div를 넣음
-  <div>
-    <div>
-      <h2>Part 2</h2>
-    </div>
-  </div>
-  -->
-  <h1>Layout 1 - 3</h1>
-  <th:block th:replace="~{/fragments/fragment1 :: part3}"></th:block>
-  <!-- 결과 : 위의 div 안에 part3의 div가 대체됨(th:block을 div와 거의 동일하게 사용가능)
-  <div>
-    <h2>Part 3</h2>
-  </div>
-  -->
+    <th:block th:replace="~{/fragments/fragment2}"></th:block>
 
+</div>
+<h1>Layout 1 - 1</h1>
+<div th:replace="~{/fragments/fragment1 :: part1}" ></div>
 
+<h1>Layout 1 - 2</h1>
+<div th:replace="~{/fragments/fragment1 :: part2}" ></div>
+
+<h1>Layout 1 - 3</h1>
+<th:block th:replace="~{/fragments/fragment1 :: part3}" ></th:block>
 
 </body>
 </html>

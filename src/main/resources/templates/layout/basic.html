@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="setContent(content)"> <!-- content 부분이 바뀔 수 있도록 처리 -->
-<!-- 부트스트랩의 index를 그대로 복사해오고, 위의 Thymeleaf 설정을 한다. -->
-<head>
 
+<th:block th:fragment="setContent(content)"> <!-- content 부분이 바뀔 수 있도록 처리 -->
+    <!-- 부트스트랩의 index를 그대로 복사해오고, 위의 Thymeleaf 설정을 한다. -->
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -11,16 +11,16 @@
 
     <title>Simple Sidebar - Start Bootstrap Template</title>
 
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+
     <!-- href를 Thymeleaf의 링크로 처리 -->
     <!-- Bootstrap core CSS -->
     <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link th:href="@{css/simple-sidebar.css}" rel="stylesheet">
+    <link th:href="@{/css/simple-sidebar.css}" rel="stylesheet">
     <!-- Bootstrap core JavaScript --> <!-- 다른 페이지에서도 적용되어야 하기 때문에 페이지의 상단으로 이동함 -->
-    <script th:href="@{vendor/jquery/jquery.min.js}"></script>
-    <script th:href="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-
-
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 </head>
 
@@ -32,12 +32,12 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading">Start Bootstrap </div>
         <div class="list-group list-group-flush">
-            <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+            <a href="/" class="list-group-item list-group-item-action bg-light">HOME</a>
+            <a href="/guestbook/list" class="list-group-item list-group-item-action bg-light">방명록</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">회원용게시판</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">영화리뷰게시판</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">LOGIN</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">LOGOUT</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -76,14 +76,18 @@
         </nav>
 
         <div class="container-fluid"> <!-- 바뀔 부분 !! -->
-            <th:block th:replace="${content}"></th:block>
             <!-- 파라미터로 전달되는 content를 출력한다. -->
+            <th:block th:replace = "${content}"></th:block>
         </div>
+
     </div>
     <!-- /#page-content-wrapper -->
 
 </div>
 <!-- /#wrapper -->
+
+
+
 
 <!-- Menu Toggle Script -->
 <script>
@@ -93,7 +97,7 @@
     });
 </script>
 
-
 </body>
 </th:block>
 </html>
+

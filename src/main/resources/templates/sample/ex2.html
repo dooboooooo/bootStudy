@@ -1,61 +1,50 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>ex2.html</title>
-    <style>
-      .target{
-        background-color: red;
-      }
-    </style>
+    <title>Title</title>
 </head>
 <body>
-    <h1>DTO 객체 출력해보기</h1>
-    <hr>
-    <ul>
-      <li th:each="dto : ${list}"> <!-- 모델영역에 있는 list 키값을 가져와 for문 처리 -->
-        [[${dto}]] <!-- list 안쪽 객체를 출력, controller의 dto와 이름을 맞춰야함 .. ? -->
-      </li>
-    </ul>
 
-    <h2> dto.sno가 5의 배수인 것만 출력 </h2>
-    <ul>
-      <li th:each="dto, state : ${list}" th:if="${dto.sno % 5 == 0}">
-        [[${dto}]]
-      </li>
-    </ul>
+<ul>
+    <li th:each="dto, state : ${list}">
+        [[${state.index}]] --- [[${dto}]]
+    </li>
+</ul>
 
-    <h2> dto.sno가 5의 배수인것은 dto.sno를 출력, 아닌것은 dto.first를 출력 </h2>
-    <ul>
-      <li th:each="dto, state : ${list}">
-        <span th:if="${dto.sno % 5 == 0}" th:text="${'--------------------- ' + dto.sno}"></span>
+
+<ul>
+    <li th:each="dto, state : ${list}" >
+        <span th:if="${dto.sno % 5 == 0}" th:text="${'-----------------' +dto.sno}"></span>
         <span th:unless="${dto.sno % 5 == 0}" th:text="${dto.first}"></span>
-      </li>
-    </ul>
+    </li>
+</ul>
 
-    <h2> 삼항연산자를 이용해서 dto.sno가 5의 배수이면 dto.sno를 출력 </h2>
-    <ul>
-      <li th:each="dto, state : ${list}" th:text="${dto.sno % 5 == 0}?${dto.sno}"></li>
-    </ul>
+<hr/>
 
-    <h2> 삼항연산자를 이용해서 dto.sno가 5의 배수이면 dto.sno를 출력하고 아니면 dto.first를 출력 </h2>
-    <ul>
-      <li th:each="dto, state : ${list}" th:text="${dto.sno % 5 == 0}?${dto.sno}:${dto.first}"></li>
-    </ul>
+<ul>
+    <li th:each="dto, state : ${list}"  th:text="${dto.sno  % 5 == 0 }? ${dto.sno}">
+    </li>
+</ul>
 
-    <h2> 삼항연산자 + 스타일 적용 : dto.sno가 5의 배수인것에 target 클래스를 적용하여 스타일 적용 </h2>
-    <ul>
-      <li th:each="dto, state : ${list}" th:class="${dto.sno % 5 == 0}?'target'" th:text="${dto}"></li>
-    </ul>
+<style>
+    .target {
+        background-color: red;
+    }
+</style>
 
-    <h2> th:block을 이용하여 dto.sno가 5의 배수인 경우에는 dto.sno를 출력, dkslaus dto.first를 출력 </h2>
-    <ul>
-        <th:block th:each="dto: ${list}">
-            <li th:text="${dto.sno % 5 == 0}?${dto.sno}:${dto.first}"></li>
-        </th:block>
-    </ul>
-    <!-- th:block은 실제 화면에서 html로 처리되지 않아 루프 등을 별도로 처리하는 용돋로 많이 사용된다. -->
+<ul>
+    <li th:each="dto, state : ${list}"  th:class="${dto.sno % 5 == 0}?'target'" th:text="${dto}">
+    </li>
+</ul>
 
+<hr/>
+
+<ul>
+    <th:block th:each="dto: ${list}">
+        <li th:text="${dto.sno % 5 == 0}?${dto.sno}:${dto.first}"></li>
+    </th:block>
+</ul>
 
 
 </body>

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
-        <th:block th:fragment="content">
-            <h1>exSidebar Page</h1>
-        </th:block>
+
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
+
+
+    <th:block th:fragment="content">
+
+        <h1>exSidebar Page</h1>
+
     </th:block>
-</html>
-<!-- 결과 : /layout/basic.html의 setContent(content) 조각을 가져온다(head, body 포함) -->
-<!-- 가져올 때 여기의 content 조각을 매개값으로 전달하고 출력하게 한다. -->
+
+</th:block>

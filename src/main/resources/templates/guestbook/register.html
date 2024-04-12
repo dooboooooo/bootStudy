@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 결과 : /layout/basic.html의 setContent(content) 조각을 가져온다(head, body 포함) -->
+<!-- 가져올 때 여기의 content 조각을 매개값으로 전달하고 출력하게 한다. -->
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
+
+  <th:block th:fragment="content">
+    <h1 class="mt-4">방명록 글작성 페이지</h1>
+    <form th:action="@{/guestbook/register}" th:method="post">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="form-control" name="title" placeholder="Enter Title">
+      </div>
+      <div class="form-group">
+        <label>Content</label>
+        <textarea class="form-control" rows="5" name="content"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Writer</label>
+        <input type="text" class="form-control" name="writer" placeholder="Enter Writer">
+      </div>
+      <button type="submit" class="btn btn-primary">완료</button>
+    </form>
+  </th:block>
+
+</th:block>

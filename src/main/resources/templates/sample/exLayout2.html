@@ -1,19 +1,19 @@
-<!DOCTYPE html> <!-- fragment3.html을 사용 -->
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<!-- this:: #ulFirst = this는 현재 페이지를 의미, #ulFirst는 css의 id선택자를 의미 -->
+
+
 <th:block th:replace="~{/fragments/fragment3:: target(~{this:: #ulFirst} , ~{this::#ulSecond} )}">
-     <ul id="ulFirst">
-            <li>AAA</li>
-            <li>BBB</li>
-            <li>CCC</li>
-     </ul>
-     <ul id="ulSecond">
-            <li>111</li>
-            <li>222</li>
-            <li>333</li>
-     </ul>
-    <!-- 결과 : -->
-    <!-- /fragments/fragment3의 target 조각에 매개값으로 각 아이디에 해당하는 ul태그를 넘긴다 -->
-    <!-- 각각 first, second로 넘어간 ul 태그가 div .c1, .c2안의 태그에 치환된다. -->
-    <!-- 스타일이 적용된다. -->
+
+    <ul id="ulFirst">
+        <li>AAA</li>
+        <li>BBB</li>
+        <li>CCC</li>
+    </ul>
+
+    <ul id="ulSecond">
+        <li>111</li>
+        <li>222</li>
+        <li>333</li>
+    </ul>
+
 </th:block>
