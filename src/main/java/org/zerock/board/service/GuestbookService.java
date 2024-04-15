@@ -12,6 +12,10 @@ public interface GuestbookService { // 추상메서드
 
     GuestbookDTO read(Long gno); // 조회, 조회 후 프론트에 뿌릴것이므로 dto로 반환
 
+    void remove(Long gno); // 삭제
+
+    void modify(GuestbookDTO dto); // 수정
+
     // interface는 실제 실행 코드를 가지는 구현객체가 필요하지만,
     // default 키워드를 사용하면 인터페이스에서도 구현이 가능하다.
     default Guestbook dtoToEntity(GuestbookDTO dto) { // dto를 entity로 변환

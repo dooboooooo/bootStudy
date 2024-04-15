@@ -48,4 +48,29 @@ public class GuestbookServiceTests {
         resultDTO.getPageList().forEach(i -> System.out.println(i)); // 1 2 3 4 5 6 7 8 9 10
     }
 
+    @Test
+    public void testSearch(){
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .type("tc")
+                .keyword("테스트")
+                .build();
+        PageResultDTO<GuestbookDTO, Guestbook> resultDTO = service.getList(pageRequestDTO);
+
+        System.out.println("PREV : " + resultDTO.isPrev()); // false
+        System.out.println("NEXT : " + resultDTO.isNext()); // false
+        System.out.println("TOTAL : " + resultDTO.getTotalPage()); // 1 : 전체 페이지 개수(게시물 5개)
+        System.out.println("=======================================================");
+
+        // resultDTO의 dtoList(entity가 dto로 변환됨)를 가져와 돌면서 출력
+        for(GuestbookDTO guestbookDTO : resultDTO.getDtoList()){
+            System.out.println(guestbookDTO);
+        }
+        System.out.println("=======================================================");
+
+        // 현재 페이지에 해당하는 페이지 번호(Integer)들 출력
+        resultDTO.getPageList().forEach(i -> System.out.println(i)); // 1 2 3 4 5 6 7 8 9 10
+    }
+
 }

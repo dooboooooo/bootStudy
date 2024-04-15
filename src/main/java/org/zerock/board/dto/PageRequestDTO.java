@@ -12,10 +12,12 @@ import org.springframework.data.domain.Pageable;
 @Data
 public class PageRequestDTO {
     // 목록 페이지를 요청할 때 사용하는 데이터를 재사용하기 쉽게 만든 클래스
-    // 화면에서 전달되는 page, size 파라미터를 수집하는 역할
+    // 화면에서 전달되는 page, size, type, keyword 파라미터를 수집하는 역할
     // JPA에서 사용하는 Pageable 타입의 객체를 생성할 때 사용
     private int page;
     private int size;
+    private String type;
+    private String keyword;
 
     public PageRequestDTO(){ // 페이지번호 등은 기본값을 가지는것이 좋음
         this.page = 1;

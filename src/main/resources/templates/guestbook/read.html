@@ -27,6 +27,18 @@
       <label>RegDate</label>
       <input type="text" class="form-control" name="regDate" th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
     </div>
+    <div class="form-group">
+      <label>ModDate</label>
+      <input type="text" class="form-control" name="modDate" th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+    </div>
+
+    <!-- 컨트롤러에서 @ModelAttribute("requestDTO")를 이용해 requestDTO라는 이름 지정해줌 -->
+    <a th:href="@{/guestbook/modify(gno=${dto.gno}, page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">
+      <button type="button" class="btn btn-primary">Modify</button>
+    </a>
+    <a th:href="@{/guestbook/list(page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">
+      <button type="button" class="btn btn-info">List</button>
+    </a>
   </th:block>
 
 </th:block>

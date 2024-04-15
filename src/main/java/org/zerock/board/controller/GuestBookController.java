@@ -49,18 +49,36 @@ public class GuestBookController {
         return "redirect:/guestbook/list";
     }
 
-    @GetMapping("/read")
+    @GetMapping({"/read", "/modify"})
     public void read(long gno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model){
         // long gno : 파라미터로 수집(gno)
         // PageRequestDTO requestDTO : 파라미터로 수집(page)
-        // @ModelAttribute("requestDTO") : 없어도 처리 가능하지만 명시적으로 처리해둠 .. ?
-        log.info("GuestBookController.read() 실행 ... ");
+        // @ModelAttribute("requestDTO") : list.html에서 넘어오는 PageRequestDTO를 requestDTO라는 이름으로 처리한다.
+        log.info("GuestBookController.상세보기, 수정 페이지 이동 메서드 실행 ... gno : " + gno);
         // service에서 gno를 통해 읽어온 entity 객체를 dto로 변환하여 리턴해줌
         GuestbookDTO dto = service.read(gno);
         // 모델 영역에 dto 라는 이름으로 속성 지정
         model.addAttribute("dto", dto);
     }
 
+    @PostMapping("/modify")
+    public String modify(GuestbookDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes){
+        log.info("GuestBookController.modify() 실행 ... dto : " + dto);
+        service.modify(dto); // dto.getGno를 이용해 해당 게시물을 entity로 불러온 다음 제목,내용을 수정하고 DB에 저장
+        redirectAttributes.addAttribute("page", requestDTO.getPage()); // 페이지 정보 유지 위함
+        redirectAttributes.addAttribute("type", requestDTO.getType()); // 검색 조건 유지 위함
+        redirectAttributes.addAttribute("keyword", requestDTO.getKeyword()); // 검색 조건 유지 위함
+        redirectAttributes.addAttribute("gno", dto.getGno());
+        return "redirect:/guestbook/read"; // 수정 후 상세보기로 이동(위의 page, gno를 가지고 감)
+    }
+
+    @PostMapping("/remove")
+    public String remove(long gno, RedirectAttributes redirectAttributes){
+        log.info("GuestBookController.remove() 실행 ... gno : " + gno);
+        service.remove(gno);
+        redirectAttributes.addFlashAttribute("msg", gno);
+        return "redirect:/guestbook/list";
+    }
 
 
 
