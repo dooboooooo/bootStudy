@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 결과 : /layout/basic.html의 setContent(content) 조각을 가져온다(head, body 포함) -->
+<!-- 가져올 때 여기의 content 조각을 매개값으로 전달하고 출력하게 한다. -->
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
+
+  <th:block th:fragment="content">
+    <h1 class="mt-4">게시물 조회 페이지</h1>
+    <div class="form-group">
+      <label >Bno</label>
+      <input type="text" class="form-control" name="gno" th:value="${dto.bno}" readonly >
+    </div>
+    <div class="form-group">
+      <label >Title</label>
+      <input type="text" class="form-control" name="title" th:value="${dto.title}" readonly >
+    </div>
+    <div class="form-group">
+      <label >Content</label>
+      <textarea class="form-control" rows="5" name="content" readonly>[[${dto.content}]]</textarea>
+    </div>
+    <div class="form-group">
+      <label >Writer</label>
+      <input type="text" class="form-control" name="writer" th:value="${dto.writerName}" readonly>
+    </div>
+    <div class="form-group">
+      <label >RegDate</label>
+      <input type="text" class="form-control" name="regDate" th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+    </div>
+    <div class="form-group">
+      <label >ModDate</label>
+      <input type="text" class="form-control" name="modDate" th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+    </div>
+
+    <!-- 컨트롤러에서 @ModelAttribute("requestDTO")를 이용해 requestDTO라는 이름 지정해줌 -->
+    <a th:href="@{/board/modify(bno = ${dto.bno}, page=${requestDTO.page}, type=${requestDTO.type}, keyword =${requestDTO.keyword})}">
+      <button type="button" class="btn btn-primary">Modify</button>
+    </a>
+    <a th:href="@{/board/list(page=${requestDTO.page} , type=${requestDTO.type}, keyword =${requestDTO.keyword})}">
+      <button type="button" class="btn btn-info">List</button>
+    </a>
+
+    <!-- 댓글 출력 -->
+    <div >
+      <div class="mt-4">
+        <h5 ><span class="badge badge-info addReply">Add Reply</span> </h5> <!-- 댓글 달기 버튼 -->
+        <h5 ><span class="badge badge-secondary replyCount"> Reply Count  [[${dto.replyCount}]]</span> </h5> <!-- 댓글 보기 버튼 -->
+      </div>
+      <div class="list-group replyList">
+
+      </div>
+    </div>
+
+    <!-- 모달창 -->
+    <div class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span> <!-- X 버튼 -->
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input class="form-control"  type="text" name="replyText" placeholder="Reply Text...">
+            </div>
+            <div class="form-group">
+              <input class="form-control"  type="text" name="replyer" placeholder="Replyer">
+              <input type="hidden" name="rno" >
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger replyRemove">Remove</button>
+            <button type="button" class="btn btn-warning replyModify">Modify</button>
+            <button type="button" class="btn btn-primary replySave">Save</button>
+            <button type="button" class="btn btn-outline-secondary replyClose" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script th:inline="javascript">
+
+      $(document).ready(function () {
+        // dto의 bno값을 가져온다.
+        var bno = [[${dto.bno}]];
+
+        // div 태그를 가져온다.
+        var listGroup = $(".replyList");
+
+        /*$(".replyCount").click(function () { // 클릭하면
+          // json, get 방식으로 전송
+          $.getJSON('/replies/board/' + bno, function (arr) {
+            console.log(arr);
+          })
+        })*/
+
+        //댓글이 추가될 영역 가져옴
+        var listGroup  = $(".replyList");
+
+        //날짜 처리를 위한 함수 yyyy/MM/DD HH:mm
+        function formatTime(str){
+          var date = new Date(str);
+
+          return date.getFullYear() + '/' +
+                  (date.getMonth() + 1) + '/' +
+                  date.getDate() + ' ' +
+                  date.getHours() + ':' +
+                  date.getMinutes();
+        }
+
+        //특정한 게시글의 댓글을 처리하는 함수
+        function loadJSONData() {
+          $.getJSON('/replies/board/'+ bno, function(arr){
+            console.log(arr);
+            var str ="";
+
+            $('.replyCount').html(" Reply Count : " + arr.length);
+
+            $.each(arr, function(idx, reply){
+              console.log(reply);
+              str += '    <div class="card-body" data-rno="'+reply.rno+'"><b>'+reply.rno +'</b>'; // data에 rno속성값 지정해둠
+              str += '    <h5 class="card-title">'+reply.text+'</h5>';
+              str += '    <h6 class="card-subtitle mb-2 text-muted">'+reply.replyer+'</h6>';
+              str += '    <p class="card-text">'+ formatTime(reply.regDate) +'</p>'; // 위에서 지정한 날짜 처리 함수
+              str += '    </div>';
+            })
+
+            listGroup.html(str);
+
+          });
+        }
+
+        $(".replyCount").click(function(){ // 댓글 보기 버튼 클릭 시
+          loadJSONData();
+        })//end click
+
+        //모달 창 가져옴
+        var modal = $('.modal');
+
+        $(".addReply").click(function () { // 댓글 추가 버튼 클릭 시
+          modal.modal('show'); // 모달창 띄워줌
+
+          //댓글 입력하는 부분 초기화 시키기
+          $('input[name="replyText"]').val('');
+          $('input[name="replyer"]').val('');
+
+
+          $(".modal-footer .btn").hide(); //모달 내의 모든 버튼을 안 보이도록
+          $(".replySave, .replyClose").show(); //필요한 버튼들만 보이도록
+        });
+
+        $(".replySave").click(function() { // 모달창의 저장 버튼 클릭 시(댓글 작성할 때)
+          var reply = {
+            bno: bno, // 위에서 이미 변수로 선언함
+            text: $('input[name="replyText"]').val(), // 모달 창에 작성한 값
+            replyer: $('input[name="replyer"]').val() // 모달 창에 작성한 값
+          }
+          console.log(reply);
+          $.ajax({
+            url: '/replies/',
+            method: 'post',
+            data:  JSON.stringify(reply), // reply를 json 문자열로 바꿈
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function(data){
+              console.log(data);
+              var newRno = parseInt(data);
+
+              alert(newRno +"번 댓글이 등록되었습니다.")
+              modal.modal('hide'); // 모달 닫기
+              loadJSONData(); // 다시 댓글 로드
+            }
+          })
+        });
+
+        $('.replyList').on("click", ".card-body", function(){ // 댓글 클릭 시
+
+          var rno = $(this).data("rno"); // 클릭한 댓글 번호 가져옴
+
+          // 클릭한 댓글 제목을 모달 replyText의 값으로 넣음
+          $("input[name='replyText']").val( $(this).find('.card-title').html());
+          // 클릭한 댓글 작성자를 모달 replyer의 값으로 넣음
+          $("input[name='replyer']").val( $(this).find('.card-subtitle').html());
+          $("input[name='rno']").val(rno); // hidden
+
+          $(".modal-footer .btn").hide(); // 버튼 모두 숨기기
+          $(".replyRemove, .replyModify, .replyClose").show(); // 필요한것만 보이기
+
+          modal.modal('show'); // 모달 보여주기
+
+        });
+
+        $(".replyRemove").on("click", function(){ // 댓글 클릭 -> 삭제 버튼 클릭 시
+
+          var rno = $("input[name='rno']").val(); //모달 창에 숨겨진 댓글 번호, hidden
+
+          $.ajax({
+            url: '/replies/' + rno,
+            method: 'delete',
+            success: function(result){
+              console.log("result: " + result);
+              if(result ==='success'){
+                alert("댓글이 삭제되었습니다");
+                modal.modal('hide'); // 모달 숨김
+                loadJSONData(); // 댓글 리로드
+              }
+            }
+          })
+        });
+
+
+      }) // document.ready
+
+
+    </script>
+
+  </th:block>
+
+</th:block>

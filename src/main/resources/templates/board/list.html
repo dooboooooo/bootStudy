@@ -6,16 +6,16 @@
 <th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
 
     <th:block th:fragment="content">
-        <h1 class="mt-4">방명록 리스트 페이지(페이징, 다중검색)
+        <h1 class="mt-4">게시물 리스트 페이지(페이징, 다중검색)
             <span>
-                <a th:href="@{/guestbook/register}">
+                <a th:href="@{/board/register}">
                     <button type="button" class="btn btn-outline-primary">글작성</button>
                 </a>
             </span>
         </h1>
 
         <!-- 검색폼 -->
-        <form action="/guestbook/list" method="get" id="searchForm">
+        <form action="/board/list" method="get" id="searchForm">
             <div class="input-group">
                 <input type="hidden" name="page" value = "1"> <!-- 검색 버튼을 누르면 무조건 1페이지부터 보여줌 -->
                 <div class="input-group-prepend">
@@ -52,10 +52,10 @@
             <tr th:each="dto : ${result.dtoList}">
                 <th scope="row">
                     <!-- 조회페이지로 이동할 때 조회할 게시물 번호와, 현재 페이지 번호를 파라미터로 보낸다 -->
-                    <a th:href="@{/guestbook/read(gno = ${dto.gno}, page = ${result.page}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}">[[${dto.gno}]]</a>
+                    <a th:href="@{/board/read(bno = ${dto.bno}, page = ${result.page}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}">[[${dto.bno}]]</a>
                 </th>
-                <td>[[${dto.title}]]</td>
-                <td>[[${dto.writer}]]</td>
+                <td>[[${dto.title}]] ----------------- [<b th:text="${dto.replyCount}"></b>]</td>
+                <td>[[${dto.writerName}]]<small>[[${dto.writerEmail}]]</small></td>
                 <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td> <!-- 년/월/일 format으로 출력 -->
             </tr>
             </tbody>
@@ -63,20 +63,20 @@
 
         <!-- 페이지 출력 -->
         <ul class="pagination h-100 justify-content-center align-items-center">
-            <li class="page-item" th:if="${result.prev}"> <!-- 이전 버튼 표시 여부가 true 라면 -->
-                <a class="page-link" th:href="@{/guestbook/list(page=${result.start - 1}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}" tabindex="-1">이전</a> <!-- 이전 버튼 출력 -->
+            <li class="page-item " th:if="${result.prev}">  <!-- 이전 버튼 표시 여부가 true 라면 -->
+                <a class="page-link" th:href="@{/board/list(page= ${result.start -1}, type=${pageRequestDTO.type} , keyword = ${pageRequestDTO.keyword} ) }" tabindex="-1">이전</a> <!-- 이전 버튼 출력 -->
             </li> <!-- 이전 클릭 시 시작 페이지번호 - 1로 이동 -->
 
             <!-- result(PageResultDTO<DTO, EN>)의 pageList(List<Integer> 해당 페이지 번호들)를 반복하여 li 태그 생성 -->
             <!-- 현재 페이지 번호와 같은 page 값이 있으면 클래스 이름을 page-item active로 지정 -->
-            <li th:class=" 'page-item' + ${result.page == page?' active':''}" th:each="page: ${result.pageList}">
-                <a class="page-link" th:href="@{/guestbook/list(page=${page}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}"> <!-- pageList의 page 객체 번호로 이동 -->
+            <li th:class=" 'page-item ' + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
+                <a class="page-link" th:href="@{/board/list(page = ${page} , type=${pageRequestDTO.type} , keyword = ${pageRequestDTO.keyword}  )}"> <!-- pageList의 page 객체 번호로 이동 -->
                     [[${page}]]
                 </a>
             </li>
 
             <li class="page-item" th:if="${result.next}"> <!-- 다음 버튼 표시 여부가 true 라면 -->
-                <a class="page-link" th:href="@{/guestbook/list(page=${result.end + 1}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}">다음</a> <!-- 다음 버튼 출력 -->
+                <a class="page-link" th:href="@{/board/list(page= ${result.end + 1} , type=${pageRequestDTO.type} , keyword = ${pageRequestDTO.keyword} )}">다음</a> <!-- 다음 버튼 출력 -->
             </li>
         </ul> <!-- 다음 클릭 시 마지막 페이지번호 + 1로 이동 -->
 

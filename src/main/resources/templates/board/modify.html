@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 결과 : /layout/basic.html의 setContent(content) 조각을 가져온다(head, body 포함) -->
+<!-- 가져올 때 여기의 content 조각을 매개값으로 전달하고 출력하게 한다. -->
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
+
+  <th:block th:fragment="content">
+    <h1 class="mt-4">게시물 수정 페이지</h1>
+    <form action="/board/modify" method="post">  <!-- 수정 시 post 방식으로 보내질 form -->
+      <!-- 수정이 완료된 후에도 동일한 페이지로 이동할 수 있도록 페이지 번호 추가 -->
+      <!-- 조회페이지로 넘어갈 때 검색조건도 유지되도록 검색조건 추가 -->
+      <!--페이지 번호  -->
+      <input type="hidden" name="page" th:value="${requestDTO.page}">
+      <input type="hidden" name="type" th:value="${requestDTO.type}" >
+      <input type="hidden" name="keyword" th:value="${requestDTO.keyword}" >
+      <div class="form-group">
+        <label >Bno</label> <!-- 수정불가 -->
+        <input type="text" class="form-control" name="bno" th:value="${dto.bno}" readonly >
+      </div>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="form-control" name="title" th:value="${dto.title}" >
+      </div>
+      <div class="form-group">
+        <label >Content</label>
+        <textarea class="form-control" rows="5" name="content">[[${dto.content}]]</textarea>
+      </div>
+      <div class="form-group">
+        <label >Writer</label> <!-- 수정불가 -->
+        <input type="text" class="form-control" name="writer" th:value="${dto.writerEmail}" readonly>
+      </div>
+      <div class="form-group">
+        <label >RegDate</label> <!-- JPA에서 자동으로 처리될 예정이므로 name 속성 없앰 -->
+        <input type="text" class="form-control" th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+      </div>
+      <div class="form-group">
+        <label >ModDate</label> <!-- JPA에서 자동으로 처리될 예정이므로 name 속성 없앰 -->
+        <input type="text" class="form-control" th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+      </div>
+    </form>
+
+    <button type="button" class="btn btn-primary modifyBtn">Modify</button>
+    <button type="button" class="btn btn-info listBtn">List</button>
+    <button type="button" class="btn btn-danger removeBtn">Remove</button>
+
+    <script th:inline="javascript">
+
+      var actionForm = $("form"); //form 태그 객체
+      // 기본 action, method은 수정기능에 맞춰져있음
+      $(".removeBtn").click(function(){
+        actionForm.attr("action", "/board/remove").attr("method","post");
+        actionForm.submit();
+      });
+
+      $(".modifyBtn").click(function() {
+        if(!confirm("수정하시겠습니까?")){ // 취소를 누르면
+          return ;
+        }
+        actionForm.attr("action", "/board/modify").attr("method","post").submit();
+      });
+
+      $(".listBtn").click(function() {
+        // var pageInfo = $("input[name='page']"); // 페이지 번호가 담긴 hidden 태그
+        var page = $("input[name='page']");
+        var type = $("input[name='type']"); // 검색 조건 추가
+        var keyword = $("input[name='keyword']"); // 검색 조건 추가
+
+        actionForm.empty(); //form 태그의 모든 내용을 지우고
+        actionForm.append(page); // 목록 페이지 이동에 필요한 페이지 번호 추가
+        actionForm.append(type); // 검색 조건 추가
+        actionForm.append(keyword); // 검색 조건 추가
+        actionForm .attr("action", "/board/list").attr("method","get");
+        actionForm.submit();
+      })
+
+    </script>
+
+  </th:block>
+
+</th:block>

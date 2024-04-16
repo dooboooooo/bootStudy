@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.zerock.board.entity.Board;
 import org.zerock.board.entity.Reply;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -43,6 +44,14 @@ public class ReplyRepositoryTests {
         // left join member w1_0 on w1_0.email=b1_0.writer_email
         // 자식 객체(fk)가 left에 위치 = reply > board > member
         // 위와 같이 특정한 엔티티를 조회할 때 연관관계를 가진 모든 엔티티를 같이 로딩하는것을 Eager loading(즉시 로딩)이라고 한다. = 성능저하
+    }
+
+    @Test
+    public void testListByBoard(){
+        List<Reply> replyList = replyRepository.getRepliesByBoardOrderByRno(Board.builder().bno(97L).build());
+        replyList.forEach(reply -> {
+            System.out.println(reply);
+        });
     }
 
 }

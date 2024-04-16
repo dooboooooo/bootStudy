@@ -30,4 +30,14 @@ public class Board extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member writer;
 
+    // 수정 시 필요한 Board entity의 제목, 내용에 대해 set 메서드 추가
+    public void changeTitle(String title){
+        this.title = title;
+    }
+
+    public void changeContent(String content){
+        this.content = content;
+    }
+
+
 }

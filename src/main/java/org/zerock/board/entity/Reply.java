@@ -23,7 +23,7 @@ public class Reply extends BaseEntity { // 회원이 아닌 사람도 댓글을 
 
     private String replyer;
 
-    @ManyToOne // 현재클래스 TO 필드 타입 클래스
+    @ManyToOne(fetch = FetchType.LAZY) // 현재클래스 TO 필드 타입 클래스 // 지연로딩 사용
     private Board board;
 
 }
